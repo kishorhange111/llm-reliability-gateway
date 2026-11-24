@@ -32,3 +32,16 @@ jobs:
       - name: Install
         run: pip install -e ".[dev]"
       - run: pytest -q
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t gateway:ci .
+      - name: Smoke test the container
+        run: |
+          docker run -d --name gw -p 8080:8080 -e GATEWAY_TENANTS="ci:100:100:10" gateway:ci
+          for i in $(seq 1 30); do curl -fs localhost:8080/healthz && break; sleep 1; done
+          curl -fs -X POST localhost:8080/v1/complete -H 'content-type: application/json' \
+            -H 'x-tenant-id: ci' -d '{"messages":[{"role":"user","content":"hi"}]}'
+          docker inspect --format '{{.Config.User}}' gw | grep -q 10001

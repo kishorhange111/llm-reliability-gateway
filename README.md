@@ -56,6 +56,22 @@ The first breaker used a **count** rule: open after N failures within T seconds.
 
 The fix was a **failure-rate** breaker in the style of Resilience4j: open only when the failure fraction over a sliding window is at least 50% with a minimum of 20 calls. The window must be sized to the traffic: with a 10 s window, the 3 s of healthy calls before the outage diluted the rate and the breaker took about 3 s to open; a 1 s window opens in about 1.2 s. Regression tests cover both the noise case and window expiry (`tests/test_primitives.py`).
 
+## Deploy
+
+| artifact | what |
+|---|---|
+| `src/gateway/serve.py` | env-configured entrypoint: providers in priority order (`GATEWAY_PROVIDERS=anthropic,mock`), timeout, retries, and tenants as `name:rate:burst:budget_usd` |
+| `Dockerfile` | multi-stage build, non-root (UID 10001), `HEALTHCHECK` on `/healthz` |
+| `docker-compose.yml` | gateway + Prometheus scraping `/metrics`; read-only container filesystem |
+| `deploy/k8s/gateway.yaml` | Deployment (readiness/liveness probes, requests/limits, read-only root FS, dropped capabilities, seccomp, API key from a Secret), Service, HPA (2–10 replicas on CPU), PodDisruptionBudget |
+
+```
+docker compose up --build        # gateway on :8080, Prometheus on :9090
+curl -X POST localhost:8080/v1/complete -H 'x-tenant-id: acme' -H 'content-type: application/json'      -d '{"messages":[{"role":"user","content":"hi"}]}'
+```
+
+CI builds the image, starts it, checks that it runs as non-root and smoke-tests `/healthz` and `/v1/complete`.
+
 ## Development
 
 ```
