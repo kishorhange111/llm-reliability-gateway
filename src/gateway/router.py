@@ -33,6 +33,10 @@ class Policy:
     backoff_base: float = 0.02
     exact_cache: bool = True
     semantic_cache: bool = False
+    breaker_failure_rate: float = 0.5
+    breaker_min_requests: int = 20
+    breaker_window: float = 10.0
+    breaker_cooldown: float = 5.0
 
 
 @dataclass
@@ -62,7 +66,17 @@ class Gateway:
     ):
         self.providers = providers
         self.policy = policy or Policy()
-        self.breakers = {p.name: CircuitBreaker(clock=clock) for p in providers}
+        pol = self.policy
+        self.breakers = {
+            p.name: CircuitBreaker(
+                failure_rate=pol.breaker_failure_rate,
+                min_requests=pol.breaker_min_requests,
+                window=pol.breaker_window,
+                cooldown=pol.breaker_cooldown,
+                clock=clock,
+            )
+            for p in providers
+        }
         self.tenant_cfg = tenants or {}
         self.buckets: dict[str, TokenBucket] = {}
         self.budgets: dict[str, BudgetTracker] = {}

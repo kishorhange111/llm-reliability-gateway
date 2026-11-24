@@ -22,10 +22,11 @@ class FakeClock:
 
 def test_breaker_full_lifecycle():
     c = FakeClock()
-    br = CircuitBreaker(failure_threshold=3, window=10, cooldown=5, clock=c)
-    for _ in range(2):
-        br.record_failure()
-    assert br.state == BreakerState.CLOSED and br.allow()
+    br = CircuitBreaker(failure_rate=0.5, min_requests=4, window=10, cooldown=5, clock=c)
+    br.record_failure()
+    br.record_failure()
+    br.record_failure()
+    assert br.state == BreakerState.CLOSED  # below minimum volume
     br.record_failure()
     assert br.state == BreakerState.OPEN and not br.allow()
     c.t = 5.0
@@ -40,14 +41,24 @@ def test_breaker_full_lifecycle():
     assert [s for _, s in br.transitions] == ["open", "half_open", "open", "half_open", "closed"]
 
 
-def test_breaker_failures_outside_window_expire():
+def test_breaker_ignores_background_error_noise():
+    """2% errors at high volume must not trip a rate-based breaker (a count rule would)."""
     c = FakeClock()
-    br = CircuitBreaker(failure_threshold=3, window=10, clock=c)
+    br = CircuitBreaker(failure_rate=0.5, min_requests=20, window=10, clock=c)
+    for i in range(2000):
+        c.t = i * 0.0125  # 80 rps
+        br.record_failure() if i % 50 == 0 else br.record_success()
+    assert br.state == BreakerState.CLOSED
+
+
+def test_breaker_events_outside_window_expire():
+    c = FakeClock()
+    br = CircuitBreaker(failure_rate=0.5, min_requests=3, window=10, clock=c)
     br.record_failure()
     br.record_failure()
     c.t = 11.0
     br.record_failure()
-    assert br.state == BreakerState.CLOSED
+    assert br.state == BreakerState.CLOSED and br.stats() == (1, 1.0)
 
 
 def test_backoff_full_jitter_bounds():

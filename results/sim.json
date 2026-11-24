@@ -1,0 +1,269 @@
+[
+ {
+  "strategy": "single",
+  "requests": 812,
+  "availability": 0.6071428571428571,
+  "availability_during_outage": 0.0,
+  "p50_s": 0.13284919999568956,
+  "p95_s": 1.0169132000009995,
+  "p99_s": 1.0226930000062566,
+  "p95_during_outage_s": 1.0201954000003752,
+  "paid_timeout": 310,
+  "p99_during_outage_s": 1.0251499000005424,
+  "primary_calls": 812,
+  "secondary_share": 0.0,
+  "cost_usd": 0.476238,
+  "breaker_transitions": [],
+  "seed": 0
+ },
+ {
+  "strategy": "single",
+  "requests": 798,
+  "availability": 0.5964912280701754,
+  "availability_during_outage": 0.003205128205128205,
+  "p50_s": 0.13509180000255583,
+  "p95_s": 1.0157336999982363,
+  "p99_s": 1.0167532000050414,
+  "p95_during_outage_s": 1.0163212000043131,
+  "paid_timeout": 312,
+  "p99_during_outage_s": 1.0169821999952546,
+  "primary_calls": 798,
+  "secondary_share": 0.0,
+  "cost_usd": 0.459816,
+  "breaker_transitions": [],
+  "seed": 1
+ },
+ {
+  "strategy": "single",
+  "requests": 796,
+  "availability": 0.6155778894472361,
+  "availability_during_outage": 0.0033222591362126247,
+  "p50_s": 0.12173250000341795,
+  "p95_s": 1.0158374999955413,
+  "p99_s": 1.0192683999994188,
+  "p95_during_outage_s": 1.017722099997627,
+  "paid_timeout": 300,
+  "p99_during_outage_s": 1.0198721999986446,
+  "primary_calls": 796,
+  "secondary_share": 0.0,
+  "cost_usd": 0.47334,
+  "breaker_transitions": [],
+  "seed": 2
+ },
+ {
+  "strategy": "retry_x2",
+  "requests": 812,
+  "availability": 0.8041871921182266,
+  "availability_during_outage": 0.4837662337662338,
+  "p50_s": 0.13668039999902248,
+  "p95_s": 3.080043999994814,
+  "p99_s": 3.100670200001332,
+  "p95_during_outage_s": 3.091275899998436,
+  "paid_timeout": 308,
+  "p99_during_outage_s": 3.1071462000036263,
+  "primary_calls": 1363,
+  "secondary_share": 0.0,
+  "cost_usd": 0.630798,
+  "breaker_transitions": [],
+  "seed": 0
+ },
+ {
+  "strategy": "retry_x2",
+  "requests": 798,
+  "availability": 0.7982456140350878,
+  "availability_during_outage": 0.48717948717948717,
+  "p50_s": 0.13251039999886416,
+  "p95_s": 3.077999200002523,
+  "p99_s": 3.0897582999969018,
+  "p95_during_outage_s": 3.085826000002271,
+  "paid_timeout": 312,
+  "p99_during_outage_s": 3.098435400002927,
+  "primary_calls": 1354,
+  "secondary_share": 0.0,
+  "cost_usd": 0.615342,
+  "breaker_transitions": [],
+  "seed": 1
+ },
+ {
+  "strategy": "retry_x2",
+  "requests": 796,
+  "availability": 0.821608040201005,
+  "availability_during_outage": 0.5282392026578073,
+  "p50_s": 0.13319370000681374,
+  "p95_s": 3.0712000999992597,
+  "p99_s": 3.09068350000598,
+  "p95_during_outage_s": 3.085143700001936,
+  "paid_timeout": 300,
+  "p99_during_outage_s": 3.1028809000054025,
+  "primary_calls": 1323,
+  "secondary_share": 0.0,
+  "cost_usd": 0.631764,
+  "breaker_transitions": [],
+  "seed": 2
+ },
+ {
+  "strategy": "fallback",
+  "requests": 812,
+  "availability": 1.0,
+  "availability_during_outage": 1.0,
+  "p50_s": 0.13129500000650296,
+  "p95_s": 2.2323025000005146,
+  "p99_s": 2.3670320000019274,
+  "p95_during_outage_s": 2.301404799996817,
+  "paid_timeout": 308,
+  "p99_during_outage_s": 2.416963299998315,
+  "primary_calls": 1135,
+  "secondary_share": 0.29310344827586204,
+  "cost_usd": 0.861028,
+  "breaker_transitions": [],
+  "seed": 0
+ },
+ {
+  "strategy": "fallback",
+  "requests": 798,
+  "availability": 1.0,
+  "availability_during_outage": 1.0,
+  "p50_s": 0.1331854000018211,
+  "p95_s": 2.232068099998287,
+  "p99_s": 2.351210799999535,
+  "p95_during_outage_s": 2.314386600002763,
+  "paid_timeout": 312,
+  "p99_during_outage_s": 2.3824079999976675,
+  "primary_calls": 1120,
+  "secondary_share": 0.29699248120300753,
+  "cost_usd": 0.847182,
+  "breaker_transitions": [],
+  "seed": 1
+ },
+ {
+  "strategy": "fallback",
+  "requests": 796,
+  "availability": 1.0,
+  "availability_during_outage": 1.0,
+  "p50_s": 0.13333979999879375,
+  "p95_s": 2.2350182000009227,
+  "p99_s": 2.3834789999964414,
+  "p95_during_outage_s": 2.299261899999692,
+  "paid_timeout": 301,
+  "p99_during_outage_s": 2.4467175000027055,
+  "primary_calls": 1107,
+  "secondary_share": 0.27889447236180903,
+  "cost_usd": 0.84042,
+  "breaker_transitions": [],
+  "seed": 2
+ },
+ {
+  "strategy": "fallback+breaker",
+  "requests": 812,
+  "availability": 1.0,
+  "availability_during_outage": 1.0,
+  "p50_s": 0.1321749999988242,
+  "p95_s": 1.203684300002351,
+  "p99_s": 2.194328500001575,
+  "p95_during_outage_s": 2.150344399997266,
+  "paid_timeout": 102,
+  "p99_during_outage_s": 2.266772499999206,
+  "primary_calls": 409,
+  "secondary_share": 0.6551724137931034,
+  "cost_usd": 0.955696,
+  "breaker_transitions": [
+   [
+    4.24,
+    "open"
+   ],
+   [
+    6.26,
+    "half_open"
+   ],
+   [
+    7.29,
+    "open"
+   ],
+   [
+    9.31,
+    "half_open"
+   ],
+   [
+    9.46,
+    "closed"
+   ]
+  ],
+  "seed": 0
+ },
+ {
+  "strategy": "fallback+breaker",
+  "requests": 798,
+  "availability": 1.0,
+  "availability_during_outage": 1.0,
+  "p50_s": 0.11951779999799328,
+  "p95_s": 1.1676713999986532,
+  "p99_s": 2.198141200002283,
+  "p95_during_outage_s": 2.131573300001037,
+  "paid_timeout": 96,
+  "p99_during_outage_s": 2.24918240000261,
+  "primary_calls": 416,
+  "secondary_share": 0.6303258145363408,
+  "cost_usd": 0.932834,
+  "breaker_transitions": [
+   [
+    4.19,
+    "open"
+   ],
+   [
+    6.23,
+    "half_open"
+   ],
+   [
+    7.24,
+    "open"
+   ],
+   [
+    9.25,
+    "half_open"
+   ],
+   [
+    9.31,
+    "closed"
+   ]
+  ],
+  "seed": 1
+ },
+ {
+  "strategy": "fallback+breaker",
+  "requests": 796,
+  "availability": 1.0,
+  "availability_during_outage": 1.0,
+  "p50_s": 0.11783330000616843,
+  "p95_s": 1.1550500999946962,
+  "p99_s": 2.1809209999992163,
+  "p95_during_outage_s": 2.105139799998142,
+  "paid_timeout": 86,
+  "p99_during_outage_s": 2.2074743999983184,
+  "primary_calls": 400,
+  "secondary_share": 0.6369346733668342,
+  "cost_usd": 0.9321900000000001,
+  "breaker_transitions": [
+   [
+    4.28,
+    "open"
+   ],
+   [
+    6.29,
+    "half_open"
+   ],
+   [
+    7.3,
+    "open"
+   ],
+   [
+    9.3,
+    "half_open"
+   ],
+   [
+    9.38,
+    "closed"
+   ]
+  ],
+  "seed": 2
+ }
+]
