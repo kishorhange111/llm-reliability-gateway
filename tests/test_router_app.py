@@ -75,7 +75,7 @@ def test_no_fallback_policy_fails():
 
 def test_open_breaker_skips_provider():
     a = Scripted("a", failures=99)
-    g = Gateway([a, Scripted("b")], Policy(retries=0))
+    g = Gateway([a, Scripted("b")], Policy(retries=0, breaker_min_requests=5))
     for _ in range(5):
         run(g.handle(req(f"q{_}")))
     calls = a.calls
