@@ -1,0 +1,8 @@
+region             = "us-east-1"
+vpc_id             = "vpc-0123456789abcdef0"
+public_subnet_ids  = ["subnet-aaaa", "subnet-bbbb"]
+private_subnet_ids = ["subnet-cccc", "subnet-dddd"]
+allowed_cidrs      = ["10.20.0.0/16"]
+certificate_arn    = "arn:aws:acm:us-east-1:111111111111:certificate/example"
+image_tag          = "v0.3.0"
+tenants            = "support-bot:20:40:200;batch-jobs:5:5:50"

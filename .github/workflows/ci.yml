@@ -45,3 +45,15 @@ jobs:
           curl -fs -X POST localhost:8080/v1/complete -H 'content-type: application/json' \
             -H 'x-tenant-id: ci' -d '{"messages":[{"role":"user","content":"hi"}]}'
           docker inspect --format '{{.Config.User}}' gw | grep -q 10001
+
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: deploy/terraform/aws-ecs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform fmt -check -recursive
+      - run: terraform init -backend=false
+      - run: terraform validate

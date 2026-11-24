@@ -72,6 +72,29 @@ curl -X POST localhost:8080/v1/complete -H 'x-tenant-id: acme' -H 'content-type:
 
 CI builds the image, starts it, checks that it runs as non-root and smoke-tests `/healthz` and `/v1/complete`.
 
+### AWS (Terraform, ECS Fargate)
+
+`deploy/terraform/aws-ecs` deploys the same image into an **existing** VPC. In a customer account the network usually belongs to another team, so the VPC and subnets are inputs:
+
+- **ECR** with immutable tags, scan on push and a lifecycle rule;
+- **Secrets Manager** holds `ANTHROPIC_API_KEY`. The value is set out of band, so it never enters Terraform state, and only the execution role can read it;
+- **Fargate service** with a read-only root filesystem, UID 10001 and private subnets. The deployment circuit breaker auto-rolls back bad images;
+- **ALB**, internal by default. It uses TLS 1.3 when a certificate is given. The idle timeout is sized to the gateway's retry budget, because the ALB's default 60 s cuts long completions;
+- **Security groups:** only the load balancer may reach the tasks, and tasks may only make outbound HTTPS calls;
+- **Autoscaling** targets **requests per task**, with CPU as a backstop. The gateway is I/O-bound (it mostly waits on the model), so CPU alone under-scales;
+- **Alarms:**
+  - 5xx, which means every provider in the fallback chain failed;
+  - p99 above the per-attempt timeout, which means requests are paying for timeouts and the breaker isn't opening;
+  - unhealthy hosts.
+
+```
+cd deploy/terraform/aws-ecs
+cp terraform.tfvars.example terraform.tfvars   # fill in VPC / subnets / cert
+terraform init && terraform plan
+```
+
+CI runs `terraform fmt -check` and `terraform validate`. Nothing here has been applied to a real account.
+
 ## Development
 
 ```
